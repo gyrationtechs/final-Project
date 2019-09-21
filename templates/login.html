@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+     
+     <body class="bg-light">
+
+        <div class="container">
+          <div class="card card-login mx-auto">
+            <div class=" bg-dark text-white card-header"><h3>Login Page</h3></div>
+            <div class="card-body">
+              <form method="POST" action="/login">
+                  {{ form.hidden_tag() }}
+                <div class="form-group">
+                  <div class="form-group">
+                      {{ form.username.label(class="form-control-label") }}
+                    {{ form.username(class="form-control form-control-md") }}
+                  </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-group">
+                        {{ form.password.label(class="form-control-label") }}
+                      {{ form.password(class="form-control form-control-md") }}
+                    </div>
+                </div>
+                <div class="form-check">
+                    <small>
+                        {{ form.remember.label(class="form-check-label") }}
+                      {{ form.remember(class="form-check-input") }}
+                    </small>
+                </div>
+                <div class=" text-center form-group">
+                      {{ form.submit(class="btn btn-outline-dark") }}
+                </div>             
+              </form>
+              <div class="text-center small text-muted">
+                New Student? <a class="d-block text-info" href="{{ url_for('register') }}">Register an Account</a>
+                <a class="d-block text-info" href="{{ url_for('forget') }}">Forgot Password?</a>
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock content %}
