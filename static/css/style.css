@@ -4,3 +4,12 @@
     font-family: sans-serif;
 }
 
+.site-color {
+    background-color: #092a50 !important; 
+    color: #ffffff; 
+    padding: 10px;
+}
+
+.bg-site {
+    background-color: #092a50 !important; 
+  }

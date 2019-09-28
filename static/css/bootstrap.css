@@ -6065,6 +6065,10 @@ button.close {
   vertical-align: text-top !important;
 }
 
+.bg-site {
+  background-color: #092a50 !important; 
+}
+
 .bg-primary {
   background-color: #007bff !important;
 }

@@ -21,6 +21,7 @@ Bootstrap(app)
 login_manager = LoginManager(app)
 #login_manager.init_app(app)
 login_manager.login_view = 'login' 
+login_manager.login_message_category = 'info'
 
 
 class Student(UserMixin, db.Model):
@@ -80,7 +81,7 @@ admin.add_view(MyModelView(Post, db.session))
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[InputRequired(), Length(min=12, max=12)])
+    username = StringField('Username / Mat No', validators=[InputRequired(), Length(min=12, max=12)])
     password = PasswordField('Password', validators=[InputRequired(), Length(min=8, max=80)])
     remember = BooleanField('remember me')
     submit = SubmitField('Login')
@@ -90,7 +91,7 @@ class RegistrationForm(FlaskForm):
     first_name = StringField('First Name', validators=[InputRequired(), Length(min=2, max=50)])
     last_name = StringField('Last Name', validators=[InputRequired(), Length(min=2, max=50)])
     email = StringField('Email', validators=[InputRequired(), Length(max=120), Email(message = 'Invalid Email')])
-    username = StringField('Username', validators=[InputRequired(), Length(min=12, max=12)])
+    username = StringField('Username / Mat No', validators=[InputRequired(), Length(min=12, max=12)])
     password = PasswordField('Password', validators=[InputRequired(), Length(min=8, max=80)])
     confirm_password = PasswordField('Confirm Password', validators=[InputRequired(), EqualTo('password')])
     submit = SubmitField('Register')
@@ -160,6 +161,11 @@ def about():
 @app.route('/contact')
 def contact():
     return render_template('contact.html', title='Contact')
+
+
+@app.route('/forum')
+def forum():
+    return render_template('forum.html', title='EEE Forum')
 
 
 @app.route('/forget')

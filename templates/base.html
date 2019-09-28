@@ -19,47 +19,55 @@
 
 </head>
 <body>
-    <div class="container-fluid text-light">
-        <nav class="navbar navbar-expand-lg navbar-light text-light bg-dark">
-            <a class="navbar-brand" href="#">EEE PORTAL</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <div class="container-fluid text-light text-white">
+        <nav style="background-color: #092a50;" class="navbar navbar-expand-lg navbar-light text-light bg-color bg-site">
+            <a class="navbar-brand active small" href=" {{ url_for('home') }} ">EEE PORTAL</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <ul style="text-decoration: none; text-decoration-color: #ffffff; color: aliceblue;" class="navbar-nav mr-auto">
+                <li class="nav-item active small">
+                    <a class="nav-link" href="{{url_for('home')}}">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
+                <li class="nav-item active small">
+                    <a class="nav-link" href="{{url_for('about')}}">About</a>
                 </li>
-                <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                <li class="nav-item active small">
+                        <a class="nav-link" href="{{url_for('contact')}}">Contact</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
+                <li class="nav-item active small">
+                    <a class="nav-link" href="{{url_for('forum')}}" tabindex="-1" aria-disabled="true">Forum</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item pull-right active small">
+                        <a class="nav-link" href="{{url_for('dashboard')}}">Dashboard</a>
+                    </li>
+                    <li class="nav-item pull-right active small">
+                        <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
+                    </li>
+
+                {% else %}
+                    <li class="nav-item pull-right active small">
+                        <a class="nav-link" href="{{url_for('register')}}">Register</a>
+                    </li>
+                    <li class="nav-item pull-right active small">
+                        <a class="nav-link" href="{{url_for('login')}}">Login</a>
+                    </li>
+                {% endif %}
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+                <form class="form-inline small pull-center my-2 my-sm-0">
+                <input class="form-control small mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn small btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </div>
             </nav>
     </div>
-    <div class="container mt-5">
+    <div class="container mt-3">
+        {% block header %}{% endblock %}
+    </div>
+    <div class="container mt-3">
         <div class="row">
             <div class="col-md-8">
                 {% with messages = get_flashed_messages(with_categories=true) %}
@@ -74,7 +82,7 @@
                 {% block content %}{% endblock %}
             </div>
             <div class="col-md-4">
-                <h3>Our Sidebar</h3>
+                <h4 style=" background-color: #092a50; color: #ffffff; padding: 10px;">Our Sidebar</h4>
                 <p class="text-muted">
                     Quick links to help you navigate faster.
                     <ul class="list-group">
