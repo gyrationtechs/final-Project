@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+     <h4 style=" background-color: #092a50; color: #ffffff; padding: 10px;">Edit Profile</h4>
+     <div class="content-section mt-3">
+         <div class="media">
+             <img src=" {{ profile }} " height="100" width="100" alt="" class="rounded-circle  account-img">
+             <div class="media-body ml-4">
+                 <h2 class="account-heading"> {{ current_user.first_name }} {{ current_user.last_name }} </h2>
+                 <p class="text-secondary"> {{ current_user.username }} </p>
+             </div>
+         </div>
+     </div>
+{% endblock content %}

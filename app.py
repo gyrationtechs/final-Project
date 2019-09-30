@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
@@ -107,6 +107,29 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('That email is choosen. Please choose a different one')
 
 
+
+class UpdateAccountForm(FlaskForm):
+    first_name = StringField('First Name', validators=[InputRequired(), Length(min=2, max=50)])
+    last_name = StringField('Last Name', validators=[InputRequired(), Length(min=2, max=50)])
+    email = StringField('Email', validators=[InputRequired(), Length(max=120), Email(message = 'Invalid Email')])
+    username = StringField('Username / Mat No', validators=[InputRequired(), Length(min=12, max=12)])
+    department = StringField('Department', validators=[InputRequired(), Length(min=3, max=100)])
+    level = StringField('Level', validators=[InputRequired(), Length(min=3, max=10)])
+    submit = SubmitField('Register')
+
+
+    def validate_username(self, username):
+        student = Student.query.filter_by(username=username.data).first()
+        if student:
+            raise ValidationError('Student already exists for that username. Please check your matric number correctly')
+
+
+    def validate_email(self, email):
+        student = Student.query.filter_by(email=email.data).first()
+        if student:
+            raise ValidationError('That email is choosen. Please choose a different one')
+
+
 @app.route('/')
 @app.route('/home')
 def home(): 
@@ -123,8 +146,9 @@ def login():
         if student:
             if check_password_hash(student.password, form.password.data):
                 login_user(student, remember=form.remember.data)
+                next_page = request.args.get('next')
                 flash(f'Login Successful for {form.username.data}!', 'success')
-                return redirect(url_for('dashboard'))
+                return redirect(next_page) if next_page else redirect(url_for('dashboard'))
         flash('Invalid Login Details. Please check username or password', 'danger')
         return redirect(url_for('login'))
         
@@ -150,7 +174,15 @@ def register():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html', title='Dashboard')
+    profile = url_for('static', filename='images/' + current_user.profile)
+    return render_template('dashboard.html', title='Dashboard', profile=profile)
+
+
+@app.route('/dashboard/edit')
+@login_required
+def edit():
+    profile = url_for('static', filename='images/' + current_user.profile)
+    return render_template('edit.html', title='Dashboard', profile=profile)
 
 
 @app.route('/about')
